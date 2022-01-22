@@ -9,16 +9,17 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        {role === "teacher" ? (
+        {/* {role === "teacher" ? (
           <Route path="/teacher" element={<TeacherPage />} />
         ) : (
           <Navigate to="/" />
-        )}
-        {role === "admin" ? (
+        )} */}
+        <Route path="/admin" element={<AdminPage />} />
+        {/* {role === "admin" ? (
           <Route path="/admin" element={<AdminPage />} />
         ) : (
           <Navigate to="/" />
-        )}
+        )} */}
       </Routes>
     </div>
   );

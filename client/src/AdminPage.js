@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+const childProcess = require("child_process").spawn;
 import { Grid, Typography, FormControl, FormHelperText } from "@mui/material";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -21,7 +22,7 @@ const AdminPage = () => {
   const [image, setImage] = useState(null);
   const classes = useStyles();
 
-  const formIsValid = email && ID && name && image;
+  const formIsValid = email && rollNo && name && image;
 
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
@@ -38,7 +39,7 @@ const AdminPage = () => {
   const submitData = async () => {
     axios
       .post(
-        "localhost:5000/register/",
+        "/register/",
         {
           email: email,
           name: name,
@@ -53,9 +54,9 @@ const AdminPage = () => {
         console.log(image);
         alert("Form submitted successfully");
       })
-      .catch((err)=>alert(err));
+      .catch((err) => alert(err));
   };
-  const submitHandler = (e) => {
+  const studentSubmitHandler = (e) => {
     e.preventDefault();
     submitData();
   };
@@ -84,7 +85,6 @@ const AdminPage = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 1, mb: 2 }}
-            onClick={teacherLoginHandler}
           >
             Student Sign Up
           </Button>
@@ -93,14 +93,13 @@ const AdminPage = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 1, mb: 2 }}
-            onClick={teacherLoginHandler}
           >
             Teacher Sign Up
           </Button>
           <Typography component="h1" variant="h4">
-            Register
+            Student Sign Up
           </Typography>
-          <Box component="form" sx={{ mt: 1 }} onSubmit={submitHandler}>
+          <Box component="form" sx={{ mt: 1 }} onSubmit={studentSubmitHandler}>
             <TextField
               margin="normal"
               onChange={nameChangeHandler}
@@ -167,6 +166,80 @@ const AdminPage = () => {
                 {image ? image : "Please upload an image"}
               </FormHelperText>
             </FormControl>
+            {/* <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 1, mb: 2 }}
+            >
+              Open Webcam
+            </Button> */}
+            <Button
+              type="submit"
+              fullWidth
+              disabled={!formIsValid}
+              variant="contained"
+              sx={{ mt: 1, mb: 2 }}
+            >
+              Submit
+            </Button>
+          </Box>
+          <Typography component="h1" variant="h4">
+            Teacher Sign Up
+          </Typography>
+          <Box component="form" sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              variant="filled"
+              type="text"
+              value={name}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              variant="filled"
+              type="email"
+              value={email}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="subject"
+              label="Subject"
+              name="subject"
+              autoComplete="subject"
+              autoFocus
+              variant="filled"
+              type="text"
+              value={rollNo}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="password"
+              label="Password"
+              name="subject"
+              autoComplete="password"
+              autoFocus
+              variant="filled"
+              type="password"
+              value={rollNo}
+            />
             {/* <Button
               type="button"
               fullWidth
