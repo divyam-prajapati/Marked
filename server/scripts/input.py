@@ -1,5 +1,6 @@
 import face_recognition
 from base64_to_image import convert_base64_to_string
+import os
 
 known_face_encodings = []
 known_face_names = []
@@ -16,6 +17,8 @@ def input(name, img_string):
     known_face_encodings.append(user_face_encoding)
     known_face_names.append(name)
 
+    os.remove(img)
+    
     # declare and intialize a dict to store names as key and encodings as its value
     input_dict={}
 
