@@ -21,6 +21,8 @@ const FormPage = () => {
   const [image, setImage] = useState(null);
   const classes = useStyles();
 
+  const formIsValid = email && ID && name && image;
+
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -56,10 +58,6 @@ const FormPage = () => {
     e.preventDefault();
     submitData();
   };
-
-  useEffect(() => {
-    submitData();
-  }, []);
 
   return (
     <Grid
@@ -161,6 +159,7 @@ const FormPage = () => {
             <Button
               type="submit"
               fullWidth
+              disabled={!formIsValid}
               variant="contained"
               sx={{ mt: 1, mb: 2 }}
             >

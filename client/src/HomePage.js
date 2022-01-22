@@ -11,6 +11,9 @@ const HomePage = () => {
   const studentRegisterHandler = () => {
     navigate("/student_register");
   };
+  const teacherLoginHandler = () => {
+    navigate("/teacher_login");
+  };
   return (
     <Grid
       container
@@ -35,6 +38,7 @@ const HomePage = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 1, mb: 2 }}
+            onClick={teacherLoginHandler}
           >
             Start Attendance Session
           </Button>
