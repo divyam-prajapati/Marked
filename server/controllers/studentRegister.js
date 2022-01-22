@@ -6,7 +6,7 @@ const Student = require("../models/Student.js");
 
 exports.registerStudent = async (req, res, next) => {
   const { name, email, roll_number, img } = req.body;
-
+  // console.log(img)
   fs.writeFileSync(
     `./images/${name}.png`,
     img,
@@ -21,7 +21,7 @@ exports.registerStudent = async (req, res, next) => {
       name,
       email,
       roll_number,
-      encoded_array: img,
+      base64: img,
     });
     sendToken(user, 201, res);
   } catch (error) {
