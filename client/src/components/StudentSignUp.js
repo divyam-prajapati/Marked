@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Typography,
   FormHelperText,
@@ -14,9 +15,8 @@ const StudentSignUp = () => {
   const [rollNo, setRollNo] = useState("");
   const [image, setImage] = useState("");
   const [file, setFile] = useState(null);
-  let img;
   const formIsValid = email && rollNo && name && image;
-
+  let base64Image;
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -28,7 +28,6 @@ const StudentSignUp = () => {
   };
   const imageChangeHandler = (e) => {
     setImage(e.target.value);
-    img = e.target.files[0];
     setFile(e.target.files[0]);
     console.log(file);
   };
@@ -41,9 +40,7 @@ const StudentSignUp = () => {
       let reader = new FileReader();
 
       // Convert the file to base64 text
-      if (file) {
-        reader.readAsDataURL(file);
-      }
+      reader.readAsDataURL(file);
 
       // on reader load somthing...
       reader.onload = () => {
@@ -57,14 +54,33 @@ const StudentSignUp = () => {
     });
   };
 
-  const studentSubmitHandler = (e) => {
+  const studentSubmitHandler = async (e) => {
     e.preventDefault();
     console.log(image);
     getBase64(file)
       .then((result) => {
         console.log(result);
-        let base64Image = result.split(";base64,").pop();
+        base64Image = result.split(";base64,").pop();
         console.log(base64Image);
+        axios
+          .post(
+            "/student/student-register",
+            {
+              email: email,
+              name: name,
+              roll_no: rollNo,
+              encoded_array: [base64Image],
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            alert("Form submitted successfully");
+          })
+          .catch((err) => alert(err));
       })
       .catch((err) => {
         console.log(err);
