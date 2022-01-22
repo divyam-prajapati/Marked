@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+const childProcess = require("child_process").spawn;
 import { Grid, Typography, FormControl, FormHelperText } from "@mui/material";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,14 +15,14 @@ const useStyles = makeStyles({
   },
 });
 
-const FormPage = () => {
+const AdminPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [ID, setID] = useState("");
+  const [rollNo, setRollNo] = useState("");
   const [image, setImage] = useState(null);
   const classes = useStyles();
 
-  const formIsValid = email && ID && name && image;
+  const formIsValid = email && rollNo && name && image;
 
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
@@ -29,8 +30,8 @@ const FormPage = () => {
   const nameChangeHandler = (e) => {
     setName(e.target.value);
   };
-  const IDChangeHandler = (e) => {
-    setID(e.target.value);
+  const rollNoChangeHandler = (e) => {
+    setRollNo(e.target.value);
   };
   const imageChangeHandler = (e) => {
     setImage(e.target.value);
@@ -38,11 +39,11 @@ const FormPage = () => {
   const submitData = async () => {
     axios
       .post(
-        "localhost:5000/register/",
+        "/register/",
         {
           email: email,
           name: name,
-          ID: ID,
+          roll_no: rollNo,
           image: image,
         },
         {
@@ -50,11 +51,12 @@ const FormPage = () => {
         }
       )
       .then((res) => {
+        console.log(image);
         alert("Form submitted successfully");
       })
-      .catch(alert("There was some problem"));
+      .catch((err) => alert(err));
   };
-  const submitHandler = (e) => {
+  const studentSubmitHandler = (e) => {
     e.preventDefault();
     submitData();
   };
@@ -78,10 +80,26 @@ const FormPage = () => {
             alignItems: "center",
           }}
         >
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2 }}
+          >
+            Student Sign Up
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2 }}
+          >
+            Teacher Sign Up
+          </Button>
           <Typography component="h1" variant="h4">
-            Register
+            Student Sign Up
           </Typography>
-          <Box component="form" sx={{ mt: 1 }} onSubmit={submitHandler}>
+          <Box component="form" sx={{ mt: 1 }} onSubmit={studentSubmitHandler}>
             <TextField
               margin="normal"
               onChange={nameChangeHandler}
@@ -114,15 +132,15 @@ const FormPage = () => {
               margin="normal"
               required
               fullWidth
-              onChange={IDChangeHandler}
-              id="ID"
-              label="ID"
-              name="ID"
-              autoComplete="ID"
+              onChange={rollNoChangeHandler}
+              id="rollNo"
+              label="Roll No."
+              name="rollNo"
+              autoComplete="rollNo"
               autoFocus
               variant="filled"
               type="text"
-              value={ID}
+              value={rollNo}
             />
             <FormControl
               fullWidth
@@ -166,10 +184,84 @@ const FormPage = () => {
               Submit
             </Button>
           </Box>
+          <Typography component="h1" variant="h4">
+            Teacher Sign Up
+          </Typography>
+          <Box component="form" sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              variant="filled"
+              type="text"
+              value={name}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              variant="filled"
+              type="email"
+              value={email}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="subject"
+              label="Subject"
+              name="subject"
+              autoComplete="subject"
+              autoFocus
+              variant="filled"
+              type="text"
+              value={rollNo}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="password"
+              label="Password"
+              name="subject"
+              autoComplete="password"
+              autoFocus
+              variant="filled"
+              type="password"
+              value={rollNo}
+            />
+            {/* <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 1, mb: 2 }}
+            >
+              Open Webcam
+            </Button> */}
+            <Button
+              type="submit"
+              fullWidth
+              disabled={!formIsValid}
+              variant="contained"
+              sx={{ mt: 1, mb: 2 }}
+            >
+              Submit
+            </Button>
+          </Box>
         </Box>
       </Grid>
     </Grid>
   );
 };
 
-export default FormPage;
+export default AdminPage;

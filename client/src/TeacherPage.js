@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 
-const HomePage = () => {
+const TeacherPage = () => {
   const navigate = useNavigate();
 
   const studentRegisterHandler = () => {
@@ -49,7 +49,16 @@ const HomePage = () => {
             sx={{ mt: 1, mb: 2 }}
             onClick={studentRegisterHandler}
           >
-            Student Sign Up
+            Generate Defaulter List
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2 }}
+            onClick={studentRegisterHandler}
+          >
+            Generate Attendance Sheet
           </Button>
         </Box>
       </Grid>
@@ -57,4 +66,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default TeacherPage;

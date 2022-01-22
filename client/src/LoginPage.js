@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Grid, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -7,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 
 const TeacherLogin = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,7 +17,7 @@ const TeacherLogin = () => {
   const submitData = async () => {
     axios
       .post(
-        "localhost:5000/login/",
+        "/login/",
         {
           email: email,
           password: password,
@@ -25,9 +27,16 @@ const TeacherLogin = () => {
         }
       )
       .then((res) => {
-        alert("Form submitted successfully");
+        console.log(res);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.role);
+        if (res.data.role === "admin") {
+          navigate("/admin");
+        } else if (res.data.role === "teacher") {
+          navigate("/teacher");
+        }
       })
-      .catch(alert("Error"));
+      .catch((err) => alert(err));
   };
   const submitHandler = (e) => {
     e.preventDefault();

@@ -1,16 +1,25 @@
 import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
-import FormPage from "./FormPage";
-import HomePage from "./HomePage";
-import TeacherLogin from "./TeacherLogin";
-
+import AdminPage from "./AdminPage";
+import TeacherPage from "./TeacherPage";
+import LoginPage from "./LoginPage";
 function App() {
+  const role = localStorage.getItem("role");
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/student_register" element={<FormPage />} />
-        <Route path="/teacher_login" element={<TeacherLogin />} />
+        <Route path="/" element={<LoginPage />} />
+        {/* {role === "teacher" ? (
+          <Route path="/teacher" element={<TeacherPage />} />
+        ) : (
+          <Navigate to="/" />
+        )} */}
+        <Route path="/admin" element={<AdminPage />} />
+        {/* {role === "admin" ? (
+          <Route path="/admin" element={<AdminPage />} />
+        ) : (
+          <Navigate to="/" />
+        )} */}
       </Routes>
     </div>
   );
