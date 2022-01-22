@@ -14,10 +14,10 @@ const useStyles = makeStyles({
   },
 });
 
-const FormPage = () => {
+const AdminPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [ID, setID] = useState("");
+  const [rollNo, setRollNo] = useState("");
   const [image, setImage] = useState(null);
   const classes = useStyles();
 
@@ -29,8 +29,8 @@ const FormPage = () => {
   const nameChangeHandler = (e) => {
     setName(e.target.value);
   };
-  const IDChangeHandler = (e) => {
-    setID(e.target.value);
+  const rollNoChangeHandler = (e) => {
+    setRollNo(e.target.value);
   };
   const imageChangeHandler = (e) => {
     setImage(e.target.value);
@@ -42,7 +42,7 @@ const FormPage = () => {
         {
           email: email,
           name: name,
-          ID: ID,
+          roll_no: rollNo,
           image: image,
         },
         {
@@ -50,9 +50,10 @@ const FormPage = () => {
         }
       )
       .then((res) => {
+        console.log(image);
         alert("Form submitted successfully");
       })
-      .catch(alert("There was some problem"));
+      .catch((err)=>alert(err));
   };
   const submitHandler = (e) => {
     e.preventDefault();
@@ -78,6 +79,24 @@ const FormPage = () => {
             alignItems: "center",
           }}
         >
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2 }}
+            onClick={teacherLoginHandler}
+          >
+            Student Sign Up
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2 }}
+            onClick={teacherLoginHandler}
+          >
+            Teacher Sign Up
+          </Button>
           <Typography component="h1" variant="h4">
             Register
           </Typography>
@@ -114,15 +133,15 @@ const FormPage = () => {
               margin="normal"
               required
               fullWidth
-              onChange={IDChangeHandler}
-              id="ID"
-              label="ID"
-              name="ID"
-              autoComplete="ID"
+              onChange={rollNoChangeHandler}
+              id="rollNo"
+              label="Roll No."
+              name="rollNo"
+              autoComplete="rollNo"
               autoFocus
               variant="filled"
               type="text"
-              value={ID}
+              value={rollNo}
             />
             <FormControl
               fullWidth
@@ -172,4 +191,4 @@ const FormPage = () => {
   );
 };
 
-export default FormPage;
+export default AdminPage;
