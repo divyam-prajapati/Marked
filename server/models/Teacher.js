@@ -20,6 +20,10 @@ const TeacherSchema = new mongoose.Schema({
     type: String,
     default: "teacher",
   },
+  subject: {
+    type: String,
+    required: true,
+  },
   password: {
     type: String,
     required: [true, "Please add a password"],

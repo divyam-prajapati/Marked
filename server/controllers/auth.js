@@ -3,13 +3,14 @@ const crypto = require("crypto");
 const ErrorResponse = require("../utils/errorResponse");
 const sendEmail = require("../utils/sendEmail");
 exports.register = async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, subject, password } = req.body;
 
   try {
     const user = await Teacher.create({
       name,
       email,
       role: "teacher",
+      subject,
       password,
     });
 
@@ -113,6 +114,6 @@ const sendToken = (user, statusCode, res) => {
   res.status(statusCode).json({
     success: true,
     token,
-    role:user.role
+    role: user.role,
   });
 };
