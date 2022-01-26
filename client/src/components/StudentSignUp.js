@@ -14,7 +14,7 @@ const StudentSignUp = () => {
   const [email, setEmail] = useState("");
   const [rollNo, setRollNo] = useState("");
   const [image, setImage] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState("");
   const formIsValid = email && rollNo && name && image;
   let base64Image;
   const emailChangeHandler = (e) => {
@@ -50,41 +50,52 @@ const StudentSignUp = () => {
         // console.log(baseURL);
         resolve(baseURL);
       };
-      console.log(fileInfo);
     });
   };
 
   const studentSubmitHandler = async (e) => {
     e.preventDefault();
     console.log(image);
-    getBase64(file)
-      .then((result) => {
-        console.log(result);
-        base64Image = result.split(";base64,").pop();
-        console.log(base64Image);
-        axios
-          .post(
-            "/student/student-register",
-            {
-              email: email,
-              name: name,
-              roll_no: rollNo,
-              encoded_array: [base64Image],
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((res) => {
-            alert("Form submitted successfully");
-          })
-          .catch((err) => alert(err));
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("roll_no", rollNo);
+    formData.append("image", file);
+    axios
+      .post(`http://localhost:5000/student/student-register`, formData)
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => {
+        console.log(err?.response?.data?.message);
         console.log(err);
       });
+    // getBase64(file)
+    //   .then((result) => {
+    //     console.log(result);
+    //     base64Image = result.split(";base64,").pop();
+    //     console.log(base64Image);
+    //     // console.log(process.env.local.BACKEND);
+    //     // fetch(`student/student-register`, {
+    //     //   method: "POST",
+    //     //   headers: { "Content-Type": "application/json" },
+    //     //   body: JSON.stringify({
+    //     //     name: name,
+    //     //     email: email,
+    //     //     roll_no: rollNo,
+    //     //     base64: base64Image,
+    //     //   }),
+    //     // })
+    //     //   .then((result) => {
+    //     //     console.log(result);
+    //     //   })
+    //     //   .catch((error) => {
+    //     //     console.log(error);
+    //     //   });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   return (
@@ -92,7 +103,12 @@ const StudentSignUp = () => {
       <Typography component="h1" variant="h4">
         Student Sign Up
       </Typography>
-      <Box component="form" sx={{ mt: 1 }} onSubmit={studentSubmitHandler}>
+      <Box
+        component="form"
+        sx={{ mt: 1 }}
+        onSubmit={studentSubmitHandler}
+        encType="multipart/form-data"
+      >
         <TextField
           margin="normal"
           onChange={nameChangeHandler}
@@ -148,7 +164,7 @@ const StudentSignUp = () => {
             Upload Image
             <input
               type="file"
-              name="file"
+              name="image"
               id="imageUpload"
               required
               hidden
