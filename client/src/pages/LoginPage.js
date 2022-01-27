@@ -17,7 +17,7 @@ const TeacherLogin = () => {
   const submitData = async () => {
     axios
       .post(
-        "/login/",
+        "http://localhost:5000/login/",
         {
           email: email,
           password: password,
