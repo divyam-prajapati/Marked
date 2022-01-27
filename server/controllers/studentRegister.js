@@ -34,7 +34,7 @@ exports.registerStudent = async (req, res, next) => {
           .json({ message: "Student created successfully.", file: req.file });
       })
       .catch((err) => {
-        res.status(400).json("Error creating student " + err.message);
+        res.status(400).json({ message: err.message });
       });
     // const user = await Student.create({
     //   name: name,

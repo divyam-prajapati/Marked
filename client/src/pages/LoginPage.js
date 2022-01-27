@@ -6,6 +6,9 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const TeacherLogin = () => {
   const navigate = useNavigate();
@@ -17,7 +20,7 @@ const TeacherLogin = () => {
   const submitData = async () => {
     axios
       .post(
-        "/login/",
+        "http://localhost:5000/login/",
         {
           email: email,
           password: password,
